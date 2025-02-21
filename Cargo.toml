@@ -1,0 +1,32 @@
+[package]
+name = "dreamgame"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = { version = "0.15", features = ["dynamic_linking"] }
+cfg-if = "1.0.0"
+lightyear = { version = "0.19.0", features = ["webtransport"] }
+log = { version = "*", features = ["max_level_debug", "release_max_level_warn"] }
+serde = "1.0.218"
+clap = { version = "4.4", features = ["derive"] }
+async-compat = "0.2.3"
+crossbeam-channel = "0.5.14"
+
+# Enable a small amount of optimization in the dev profile.
+[profile.dev]
+opt-level = 1
+
+# Enable a large amount of optimization in the dev profile for dependencies.
+[profile.dev.package."*"]
+opt-level = 3
+
+# server and client features
+[features]
+default = ["client", "server", "gui"]
+client = []
+server = []
+wasm = []
+gui = []
+
+
