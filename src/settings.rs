@@ -20,8 +20,8 @@ pub(crate) fn get_settings() -> Settings {
                 ServerTransports::WebTransport {
                     local_port: 5000,
                     certificate: WebTransportCertificateSettings::FromFile {
-                        cert: "../certificates/cert.pem".to_string(),
-                        key: "../certificates/key.pem".to_string(),
+                        cert: "./certificates/cert.pem".to_string(),
+                        key: "./certificates/key.pem".to_string(),
                     },
                 },
                 ServerTransports::Udp { local_port: 5001 },
