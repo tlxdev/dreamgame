@@ -37,10 +37,14 @@ fn main() {
 
     app.add_lightyear_plugins();
     app.add_user_shared_plugin(ProtocolPlugin);
+    app.add_user_shared_plugin(shared::world_generation::WorldGenerationPlugin);
     #[cfg(feature = "client")]
     app.add_user_client_plugin(client::ExampleClientPlugin);
+    app.add_user_client_plugin(client::plugins::ClientWorldPlugin);
+
     #[cfg(feature = "server")]
     app.add_user_server_plugin(server::ExampleServerPlugin);
+    app.add_user_server_plugin(server::plugins::ServerWorldPlugin);
     #[cfg(feature = "gui")]
     app.add_user_renderer_plugin(renderer::ExampleRendererPlugin);
     // run the app

@@ -1,6 +1,5 @@
 use bevy::prelude::*;
 
-use crate::app::Cli;
 use crate::shared::world_generation::{
     Chunk, ChunkChannel, ChunkCoord, ChunkData, ChunkRequest, ChunkRequestEvent, WorldConfig,
     WorldState,

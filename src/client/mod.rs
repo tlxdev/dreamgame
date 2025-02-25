@@ -20,7 +20,7 @@ use crate::protocol::Direction;
 use crate::protocol::*;
 use crate::shared;
 
-mod plugins;
+pub mod plugins;
 
 pub struct ExampleClientPlugin;
 

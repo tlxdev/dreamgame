@@ -14,6 +14,7 @@ pub struct ClientWorldPlugin;
 
 impl Plugin for ClientWorldPlugin {
     fn build(&self, app: &mut App) {
+        info!("Building ClientWorldPlugin");
         app.init_resource::<ClientWorldState>().add_systems(
             Update,
             (
@@ -36,7 +37,8 @@ pub struct ClientWorldState {
 
 // System to track which chunk the player is in
 fn update_visible_chunks(
-    player_query: Query<&PlayerPosition>,
+
+    mut player_query: Query<&mut PlayerPosition, With<Predicted>>,
     world_config: Res<WorldConfig>,
     mut client_world: ResMut<ClientWorldState>,
 ) {
@@ -51,14 +53,22 @@ fn update_visible_chunks(
             y: chunk_y,
         };
 
-        // Update player chunk if changed
-        if client_world.player_chunk != Some(current_chunk) {
-            client_world.player_chunk = Some(current_chunk);
 
+        // Update player chunk and visible chunks if this is the first run
+        // or if the player has moved to a different chunk
+        let should_update = client_world.player_chunk.is_none() || 
+                            client_world.player_chunk != Some(current_chunk);
+                            
+        if should_update {
+            info!("Updating visible chunks - reason: {}", 
+                   if client_world.player_chunk.is_none() { "first run" } else { "player moved chunks" });
+            
+            client_world.player_chunk = Some(current_chunk);
+            
             // Determine visible chunks based on view distance
             let view_dist = client_world.view_distance;
             let mut new_visible = HashSet::new();
-
+            
             for y in -view_dist..=view_dist {
                 for x in -view_dist..=view_dist {
                     new_visible.insert(ChunkCoord {
@@ -67,9 +77,18 @@ fn update_visible_chunks(
                     });
                 }
             }
-
+            
+            info!("View distance: {}, calculated {} visible chunks", 
+                   view_dist, new_visible.len());
+            
             client_world.visible_chunks = new_visible;
+            
+            info!("Updated visible chunks, now tracking {} chunks", 
+                   client_world.visible_chunks.len());
+        } else {
         }
+    } else {
+        //info!("No player found, skipping visible chunks update");
     }
 }
 
@@ -83,6 +102,7 @@ fn request_visible_chunks(
         if !client_world.loaded_chunks.contains(coord) {
             // Send a request to the server for this chunk
             client.send_message::<ChunkChannel, _>(&ChunkRequest { coord: *coord });
+            info!("Requested chunk at {:?}", coord);
         }
     }
 }

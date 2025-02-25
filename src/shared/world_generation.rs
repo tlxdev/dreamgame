@@ -83,7 +83,7 @@ pub struct Tile {
 }
 
 // A chunk containing multiple tiles
-#[derive(Clone, Debug, Component, Serialize, Deserialize, PartialEq)]
+#[derive(Component, Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct Chunk {
     pub coord: ChunkCoord,
     pub tiles: Vec<Vec<Tile>>,
@@ -116,7 +116,8 @@ pub struct ChunkData {
     pub chunk: Chunk,
 }
 
-// Plugin for world generation
+// Plugin f
+#[derive(Clone)]
 pub struct WorldGenerationPlugin;
 
 impl Plugin for WorldGenerationPlugin {
@@ -131,7 +132,7 @@ impl Plugin for WorldGenerationPlugin {
         #[cfg(feature = "server")]
         {
             app.register_component::<Chunk>(ChannelDirection::ServerToClient)
-                .add_interpolation(ComponentSyncMode::Full);
+                .add_interpolation(ComponentSyncMode::Once);
 
             app.register_component::<ChunkCoord>(ChannelDirection::ServerToClient)
                 .add_interpolation(ComponentSyncMode::Once);
