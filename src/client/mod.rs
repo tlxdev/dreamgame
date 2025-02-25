@@ -20,6 +20,8 @@ use crate::protocol::Direction;
 use crate::protocol::*;
 use crate::shared;
 
+mod plugins;
+
 pub struct ExampleClientPlugin;
 
 impl Plugin for ExampleClientPlugin {
@@ -102,7 +104,7 @@ fn player_movement(
                 continue;
             }
             for position in position_query.iter_mut() {
-                shared::shared_movement_behaviour(position, input);
+                shared::movement::shared_movement_behaviour(position, input);
             }
         }
     }

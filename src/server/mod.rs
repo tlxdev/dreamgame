@@ -16,6 +16,8 @@ use std::sync::Arc;
 use crate::protocol::*;
 use crate::shared;
 
+mod plugins;
+
 pub struct ExampleServerPlugin;
 
 impl Plugin for ExampleServerPlugin {
@@ -115,7 +117,7 @@ fn movement(
 
             if let Some(player) = entity_map.0.get(&client_id) {
                 if let Ok(position) = position_query.get_mut(*player) {
-                    shared::shared_movement_behaviour(position, input);
+                    shared::movement::shared_movement_behaviour(position, input);
                 }
             } else {
                 debug!(

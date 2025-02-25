@@ -46,6 +46,12 @@ impl PlayerBundle {
 #[derive(Component, Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct PlayerId(ClientId);
 
+impl PlayerId {
+    pub fn client_id(&self) -> ClientId {
+        self.0
+    }
+}
+
 #[derive(Component, Serialize, Deserialize, Clone, Debug, PartialEq, Deref, DerefMut)]
 pub struct PlayerPosition(pub Vec2);
 
