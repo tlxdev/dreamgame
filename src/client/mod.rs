@@ -63,6 +63,7 @@ pub(crate) fn buffer_input(
         left: false,
         right: false,
     };
+
     if keypress.pressed(KeyCode::KeyW) || keypress.pressed(KeyCode::ArrowUp) {
         direction.up = true;
     }

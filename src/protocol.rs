@@ -22,6 +22,7 @@ pub(crate) struct PlayerBundle {
     id: PlayerId,
     position: PlayerPosition,
     color: PlayerColor,
+    name: PlayerName,
 }
 
 impl PlayerBundle {
@@ -35,6 +36,7 @@ impl PlayerBundle {
             id: PlayerId(id),
             position: PlayerPosition(position),
             color: PlayerColor(color),
+            name: PlayerName(format!("Player {}", id)),
         }
     }
 }
@@ -65,6 +67,9 @@ impl Mul<f32> for &PlayerPosition {
 
 #[derive(Component, Deserialize, Serialize, Clone, Debug, PartialEq)]
 pub struct PlayerColor(pub(crate) Color);
+
+#[derive(Component, Deserialize, Serialize, Clone, Debug, PartialEq)]
+pub struct PlayerName(String);
 
 // Example of a component that contains an entity.
 // This component, when replicated, needs to have the inner entity mapped from the Server world
@@ -137,6 +142,11 @@ impl Plugin for ProtocolPlugin {
         app.register_component::<PlayerColor>(ChannelDirection::ServerToClient)
             .add_prediction(ComponentSyncMode::Once)
             .add_interpolation(ComponentSyncMode::Once);
+
+        app.register_component::<PlayerName>(ChannelDirection::ServerToClient)
+            .add_prediction(ComponentSyncMode::Once)
+            .add_interpolation(ComponentSyncMode::Once);
+
         // channels
         app.add_channel::<Channel1>(ChannelSettings {
             mode: ChannelMode::OrderedReliable(ReliableSettings::default()),
