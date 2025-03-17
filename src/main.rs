@@ -41,6 +41,8 @@ fn main() {
     #[cfg(feature = "client")]
     app.add_user_client_plugin(client::ExampleClientPlugin);
     app.add_user_client_plugin(client::plugins::ClientWorldPlugin);
+    // Add the ClientWorldRenderPlugin for rendering the world tiles
+    app.add_user_client_plugin(client::plugins::ClientWorldRenderPlugin);
 
     #[cfg(feature = "server")]
     app.add_user_server_plugin(server::ExampleServerPlugin);

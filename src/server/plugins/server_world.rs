@@ -47,7 +47,7 @@ pub fn handle_chunk_network_requests(
                         chunk: chunk.clone(),
                     },
                 );
-                debug!("Sent existing chunk {:?} to client {:?}", coord, client_id);
+                info!("Sent existing chunk {:?} to client {:?}", coord, client_id);
             }
         }
     }
@@ -115,7 +115,7 @@ pub fn generate_chunks_around_players(
         };
 
         // Generate chunks in a radius around the player
-        let view_distance = 2; // Customize based on your needs
+        let view_distance = 128; // Customize based on your needs
 
         for y in -view_distance..=view_distance {
             for x in -view_distance..=view_distance {
